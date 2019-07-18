@@ -3,9 +3,10 @@ import cv2
 import time
 import pyscreenshot as ImageGrab
 from imutils import face_utils
+from imutils.video import VideoStream
 import dlib
 
-cap = cv2.VideoCapture(0)
+cap = VideoStream(src=0).start()
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('../dlib/shape_predictor_68_face_landmarks.dat')
@@ -38,41 +39,40 @@ print('Are you looking to the black point?')
 cv2.imshow('screen', screen)
 ans = cv2.waitKey(0)
 
-suc, frame = cap.read()
+frame = cap.read()
 
-if suc == True:
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    # detect the face in the grayscale frame
-    rect = detector(gray, 0)[0]
+# detect the face in the grayscale frame
+rect = detector(gray, 0)[0]
 
-    # determine the facial landmarks for the face region, then
-    # convert the facial landmark (x, y)-coordinates to a NumPy
-    # array
-    shape = predictor(gray, rect)
-    shape = face_utils.shape_to_np(shape)
+# determine the facial landmarks for the face region, then
+# convert the facial landmark (x, y)-coordinates to a NumPy
+# array
+shape = predictor(gray, rect)
+shape = face_utils.shape_to_np(shape)
 
-    # extract the left and right eye coordinates
-    leftEye = shape[lStart:lEnd]
-    rightEye = shape[rStart:rEnd]
+# extract the left and right eye coordinates
+leftEye = shape[lStart:lEnd]
+rightEye = shape[rStart:rEnd]
 
-    # concatenate the coordinates of the two eyes in a single
-    # landmarks array
-    landmarks = np.concatenate((leftEye, rightEye), axis=0)
+# concatenate the coordinates of the two eyes in a single
+# landmarks array
+landmarks = np.concatenate((leftEye, rightEye), axis=0)
 
-    # loop over the (x, y)-coordinates of the eyes
-    # and draw them on the image
-    for (x, y) in landmarks:
-        cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
+# loop over the (x, y)-coordinates of the eyes
+# and draw them on the image
+for (x, y) in landmarks:
+    cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
 
-    # Display the resulting frame
-    cv2.imshow('frame', frame)
-    cv2.waitKey(0)
+# Display the resulting frame
+cv2.imshow('frame', frame)
+cv2.waitKey(0)
 
 print(ans)
 print(x)
 print(y)
 
 # When everything done, release the capture
-cap.release()
+cap.stop()
 cv2.destroyAllWindows()
