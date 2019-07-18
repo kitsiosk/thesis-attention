@@ -1,20 +1,17 @@
 import numpy as np
 import cv2
-import time
 import pyscreenshot as ImageGrab
-from imutils import face_utils
 from imutils.video import VideoStream
-import dlib
 
+# Video caption
 cap = VideoStream(src=0).start()
 
-detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('../dlib/shape_predictor_68_face_landmarks.dat')
+# Boolean that is true when user's attention is on the given point
+# and false otherwise
+attention = False
 
-# grab the indexes of the facial landmarks for the left and
-# right eye, respectively
-(lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
-(rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
+# Number of frames to save each time the program runs
+NUM_OF_FRAMES = 3
 
 # Take a screenshot to calculate screen res. It is saved in Pillow format
 screenshot = ImageGrab.grab()
@@ -25,54 +22,43 @@ HEIGHT = screenshot.shape[0]
 WIDTH = screenshot.shape[1]
 R = 10
 
-# Initialize a white screen
-screen = np.ones((HEIGHT, WIDTH))
+print('You will see 3 consequtive white screens with a black point somewhere. We need you to press either the upkey or the downkey at each screen depending on wether you are looking at the black point directly(then press the upkey at that very moment) or looking at any other point of the screen (then press the downkey at that very moment).')
+input('When you are ready, press enter to start!')
 
-# Choose a random point on the screen
-x = np.random.randint(R, WIDTH-R)
-y = np.random.randint(R, HEIGHT-R)
+i=0
+while i < NUM_OF_FRAMES:
+    # Initialize a white screen
+    screen = np.ones((HEIGHT, WIDTH))
 
-# Color black the rectangle of side 2R and center the point (x, y)
-screen[y-R:y+R, x-R:x+R] = 0
+    # Choose a random point on the screen
+    x = np.random.randint(R, WIDTH-R)
+    y = np.random.randint(R, HEIGHT-R)
 
-print('Are you looking to the black point?')
-cv2.imshow('screen', screen)
-ans = cv2.waitKey(0)
+    # Color black the rectangle of side 2R and center the point (x, y)
+    screen[y-R:y+R, x-R:x+R] = 0
 
-frame = cap.read()
+    cv2.imshow('screen', screen)
+    ans = cv2.waitKey(0)
 
-gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    frame = cap.read()
 
-# detect the face in the grayscale frame
-rect = detector(gray, 0)[0]
+    # 82 is the integer value for 'up' key
+    # 84 is the integer value for 'down' key
+    if ans == 82:
+        attention = True
+        i=i+1
+    elif ans == 84:
+        attention = False
+        i=i+1
+    else:
+        print('You must press either upkey or downkey')
+    
+    cv2.imwrite('dataset/' + str(i) + '.jpg', frame)
+    print(ans)
+    print(x)
+    print(y)
+    print(attention)
 
-# determine the facial landmarks for the face region, then
-# convert the facial landmark (x, y)-coordinates to a NumPy
-# array
-shape = predictor(gray, rect)
-shape = face_utils.shape_to_np(shape)
-
-# extract the left and right eye coordinates
-leftEye = shape[lStart:lEnd]
-rightEye = shape[rStart:rEnd]
-
-# concatenate the coordinates of the two eyes in a single
-# landmarks array
-landmarks = np.concatenate((leftEye, rightEye), axis=0)
-
-# loop over the (x, y)-coordinates of the eyes
-# and draw them on the image
-for (x, y) in landmarks:
-    cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
-
-# Display the resulting frame
-cv2.imshow('frame', frame)
-cv2.waitKey(0)
-
-print(ans)
-print(x)
-print(y)
-
-# When everything done, release the capture
+# When everything is done, release the capture
 cap.stop()
 cv2.destroyAllWindows()
