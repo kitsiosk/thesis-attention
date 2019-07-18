@@ -56,11 +56,13 @@ if suc == True:
     leftEye = shape[lStart:lEnd]
     rightEye = shape[rStart:rEnd]
 
+    # concatenate the coordinates of the two eyes in a single
+    # landmarks array
+    landmarks = np.concatenate((leftEye, rightEye), axis=0)
+
     # loop over the (x, y)-coordinates of the eyes
     # and draw them on the image
-    for (x, y) in leftEye:
-        cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
-    for (x, y) in rightEye:
+    for (x, y) in landmarks:
         cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
 
     # Display the resulting frame
