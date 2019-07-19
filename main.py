@@ -45,7 +45,7 @@ while i < NUM_OF_FRAMES:
 
     # Choose a random point on the screen
     x = np.random.randint(R, WIDTH-R)
-    y = np.random.randint(R, HEIGHT-R)
+    y = np.random.randint(R+100, HEIGHT-R-100)
 
     # Color black the rectangle of side 2R and center the point (x, y)
     screen[y-R:y+R, x-R:x+R] = 0
