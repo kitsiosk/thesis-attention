@@ -18,7 +18,11 @@ The python file to implement the above is main.py. The attention point on the sc
   * Ask user to press up key or down key according to where they focus their attention
   * Capture a frame of the user at the moment the key is pressed and save it. 
 
-
+## To run the program:
+* git clone this project
+* install all packages in requirements.txt with pip
+* create empty directories dataset/positives and dataset/negatives
+* run main.py
 
 
 Contact me for any corrections/questions: Kitsios Konstantinos
