@@ -1,5 +1,4 @@
-# Attention Measurement
-## Data Collection Procedure
+# Attention Measurement/ Data Collection Procedure
 
 *Prerequisites*: All packages installed are documented in requirements.txt
 
@@ -15,9 +14,9 @@ The python file to implement the above is main.py. The attention point on the sc
 * Define the number of frames to capture from each user NUM_OF_FRAMES and the length of the rectangle R
 * Input from user his/her age, gender
 * For i=0...NUM_OF_FRAMES
-  *Randomly initialize the rectangle center (x, y) and color it black
-  *Ask user to press up key or down key according to where they focus their attention
-  *Capture a frame of the user at the moment the key is pressed and save it. 
+  * Randomly initialize the rectangle center (x, y) and color it black
+  * Ask user to press up key or down key according to where they focus their attention
+  * Capture a frame of the user at the moment the key is pressed and save it. 
 
 
 
