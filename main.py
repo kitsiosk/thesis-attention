@@ -10,9 +10,6 @@ UUID = uuid.uuid4().hex
 # Enable the camera
 cap = VideoStream(src=0).start()
 
-# Number of frames to save each time the program runs
-NUM_OF_FRAMES = 3
-
 # Take a screenshot to calculate screen dimensions. It is saved in Pillow format
 screenshot = ImageGrab.grab()
 # Convert it to opencv format
@@ -22,6 +19,8 @@ HEIGHT = screenshot.shape[0]
 WIDTH = screenshot.shape[1]
 # Define the side of the rectangle that represents the attention point. Side=2*R
 R = 10
+# Number of frames to save each time the program runs
+NUM_OF_FRAMES = 3
 
 # Personal data colelction and validation
 print('Hello, we would like to collect data about your gender and age.')
