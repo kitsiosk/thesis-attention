@@ -21,7 +21,7 @@ The python file to implement the above is main.py. The attention point on the sc
 ## To run the program:
 * git clone this project
 * install all packages in requirements.txt with pip
-* create empty directories dataset/positives and dataset/negatives
+* create an empty folder 'dataset'
 * run main.py
 
 
