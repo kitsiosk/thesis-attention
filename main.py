@@ -3,6 +3,8 @@ import cv2
 import tkinter
 from imutils.video import VideoStream
 import uuid
+import os
+import yaml
 
 # Set Variable only for Debugging Processes
 DEBUG = True
@@ -14,6 +16,9 @@ NUM_OF_FRAMES = 3
 # Create a unique user ID
 UUID = uuid.uuid4().hex
 print("The participant that is taking place has UUID:{}".format(UUID))
+# Create the directories for the user
+os.makedirs('dataset/' + UUID + '/positive')
+os.makedirs('dataset/' + UUID + '/negative')
 
 # Enable the camera
 cap = VideoStream(src=0).start()
@@ -36,18 +41,22 @@ while True:
 while True:
     age = input('Please input your age in years:')
     if age.isdigit():
+        age = int(age)
         break
-"""
-Feedback:
-I suggest rather than saying press Down or Up key to make it even more self-explanatory.
-Press L when Looking. 
-Press N when No Looking.
-"""
+
+data = dict(
+    gender = gender,
+    age = age,
+    UUID = UUID,
+)
+with open('dataset/' + UUID + '/data.yml', 'w') as outfile:
+    yaml.dump(data, outfile)
+
 display_message = (
-    "When you see a dot at the screen, look at the middle of it and press L(right hand). Else look outside the screen and press N.(left hand).\
+    "You are about to see {} consequtive screens. When you see a dot at the screen you have two options: \
+Either look at the middle of it and press L(right hand) or look outside the dot and press N.(left hand).\
 \n\
 \nWhen you are ready to start press Enter!").format(NUM_OF_FRAMES)
-
 input(display_message)
 
 i = 0
@@ -70,54 +79,22 @@ while i < NUM_OF_FRAMES:
     ans = cv2.waitKey(0)
 
     frame = cap.read()
-    """
-    Feedback:
-    Οι φάκελοι καλό θα ήταν σε πρώτο βάθος να χωρίζονται με βάση το UUID.
-    Αυτό γιατί αν γίνει fail από κάποιο άτομο και μας το πει εκείνη την στιγμή να είμαστε σε
-    θέση να διαγράψουμε απευθείας τα δεδομένα του από τον φάκελο και να κάνουμε καινούρια έρευνα.
-    """
-    """
-    Feedback:
-    Δεν υπήρχε κάποιο key για να σταματάει η έρευνα. Ειδικά σε debug mode είναι αναγκαίο.
-    Έβαλα το ESC σε αυτήν την περίπτωση.
-    """
 
-    # 82 is the integer value for 'up' key
-    # 84 is the integer value for 'down' key
     if ans == ord('l'):
         i += 1
         cv2.imwrite(
-            'dataset/positives/' + UUID + '_' + str(x) + '_' + str(y) + '.jpg',
+            'dataset/' + UUID + '/positive/' + UUID + '_' + str(x) + '_' + str(y) + '.jpg',
             frame)
     elif ans == ord('n'):
         i += 1
         cv2.imwrite(
-            'dataset/negatives/' + UUID + '_' + str(x) + '_' + str(y) + '.jpg',
+            'dataset/' + UUID + '/negative/' + UUID + '_' + str(x) + '_' + str(y) + '.jpg',
             frame)
     elif ans == 27:
         break
     else:
-        print('You must press either upkey or downkey')
+        print('You must press either l(looking) or n(not looking)')
 
 # When everything is done, release the video capture
 cap.stop()
 cv2.destroyAllWindows()
-"""
-Feedback:
-Now regarding the data structure my advice would be to modify the way you save the participants.
-The optimal suggested structure I can think of is the following:
-Dataset
-└── UUID_of_Participant
-    ├── data.yml
-    ├── negative
-    │   └── UUID_newUUIDfortheImage.jpg
-    └── positive
-        └── UUID_posX_posY.jpg
-    .
-    .
-    .
-    UUID_of_other_Participant
-
-I have left you with an example of only a case of one participant, me, to check out the structure.
-I did not change any code to save the data with this way.
-"""
