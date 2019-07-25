@@ -45,9 +45,9 @@ while True:
         break
 
 data = dict(
-    gender = gender,
-    age = age,
-    UUID = UUID,
+    gender=gender,
+    age=age,
+    UUID=UUID,
 )
 with open('dataset/' + UUID + '/data.yml', 'w') as outfile:
     yaml.dump(data, outfile)
@@ -83,13 +83,13 @@ while i < NUM_OF_FRAMES:
     if ans == ord('l'):
         i += 1
         cv2.imwrite(
-            'dataset/' + UUID + '/positive/' + UUID + '_' + str(x) + '_' + str(y) + '.jpg',
-            frame)
+            'dataset/' + UUID + '/positive/' + UUID + '_' + str(x) + '_' +
+            str(y) + '.jpg', frame)
     elif ans == ord('n'):
         i += 1
         cv2.imwrite(
-            'dataset/' + UUID + '/negative/' + UUID + '_' + str(x) + '_' + str(y) + '.jpg',
-            frame)
+            'dataset/' + UUID + '/negative/' + UUID + '_' + str(x) + '_' +
+            str(y) + '.jpg', frame)
     elif ans == 27:
         break
     else:
@@ -98,3 +98,23 @@ while i < NUM_OF_FRAMES:
 # When everything is done, release the video capture
 cap.stop()
 cv2.destroyAllWindows()
+
+
+"""
+Feedback:
+1. Να γίνει diplay με text για να κοιτάξει αλλού.
+2. Button για reset προηγούμενης τιμής.
+3. Costa: Να ετοιμάσω pdf με οδηγίες. 
+3. Costa: Consent. 
+4. Αντί για rectangle να είναι κύκλος.
+5. Θέλουμε : Width/Height οθόνης, τι υπολογιστής είναι (screen dimensions)
+6. Structure fix
+7. Notebook αφού γραφτεί ο κώδικας.
+8. Συλλογή από papers για citations και ενημέρωση.
+"""
+
+"""
+Goals:
+50 άτομα για αρχή,
+100 για να είμαστε Happy.
+"""
