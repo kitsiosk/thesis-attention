@@ -32,25 +32,25 @@ root.withdraw()
 WIDTH, HEIGHT = root.winfo_screenwidth(), root.winfo_screenheight()
 if DEBUG: print("Width is {} and Height is {}".format(WIDTH, HEIGHT))
 
-# Personal data colelction and validation
-print('Hello, we would like to collect data about your gender and age.')
-while True:
-    gender = input('Press \'f\' for female OR \'m\' for male ')
-    if gender == 'm' or gender == 'f':
-        break
-while True:
-    age = input('Please input your age in years:')
-    if age.isdigit():
-        age = int(age)
-        break
+# # Personal data colelction and validation
+# print('Hello, we would like to collect data about your gender and age.')
+# while True:
+#     gender = input('Press \'f\' for female OR \'m\' for male ')
+#     if gender == 'm' or gender == 'f':
+#         break
+# while True:
+#     age = input('Please input your age in years:')
+#     if age.isdigit():
+#         age = int(age)
+#         break
 
-data = dict(
-    gender=gender,
-    age=age,
-    UUID=UUID,
-)
-with open('dataset/' + UUID + '/data.yml', 'w') as outfile:
-    yaml.dump(data, outfile)
+# data = dict(
+#     gender=gender,
+#     age=age,
+#     UUID=UUID,
+# )
+# with open('dataset/' + UUID + '/data.yml', 'w') as outfile:
+#     yaml.dump(data, outfile)
 
 display_message = (
     "You are about to see {} consequtive screens. When you see a dot at the screen you have two options: \
@@ -64,6 +64,8 @@ input(display_message)
 x, y = 0, 0
 i = 0
 while i < NUM_OF_FRAMES:
+    not_looking = i%2
+
     # Initialize a white screen
     screen = np.ones((HEIGHT, WIDTH))
 
@@ -81,7 +83,13 @@ while i < NUM_OF_FRAMES:
     cv2.namedWindow("Window", cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty("Window", cv2.WND_PROP_FULLSCREEN,
                           cv2.WINDOW_FULLSCREEN)
+    if not_looking:
+        # The one below throws a warning
+        # bottom_left = ((int)(WIDTH/2) - 250, (int)(HEIGHT/2))
+        bottom_left = (x, y - R - 100)
+        cv2.putText(screen, "Look away from the screen and press N", bottom_left, cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), lineType=cv2.LINE_AA)
     cv2.imshow('Window', screen)
+
     ans = cv2.waitKey(0)
 
     frame = cap.read()
