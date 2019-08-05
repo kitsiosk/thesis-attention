@@ -59,17 +59,23 @@ Either look at the middle of it and press L(right hand) or look outside the dot 
 \nWhen you are ready to start press Enter!").format(NUM_OF_FRAMES)
 input(display_message)
 
+# Initialize center to (0, 0). It will not affect the first frame though.
+# It is used only to track the previous frame each time.
+x, y = 0, 0
 i = 0
 while i < NUM_OF_FRAMES:
     # Initialize a white screen
     screen = np.ones((HEIGHT, WIDTH))
 
+    # Save the previous center before generating a new one
+    # in order to be able to delete it.
+    x_prev, y_prev = x, y
+
     # Choose a random point on the screen
     x = np.random.randint(R, WIDTH - R)
     y = np.random.randint(R + 100, HEIGHT - R - 100)
 
-    # Color black the rectangle of side 2R and center the point (x, y)
-    screen[y - R:y + R, x - R:x + R] = 0
+    cv2.circle(screen, (x, y), R, (0, 255, 0), -1)
 
     # Proper way to display full screen
     cv2.namedWindow("Window", cv2.WND_PROP_FULLSCREEN)
@@ -90,6 +96,17 @@ while i < NUM_OF_FRAMES:
         cv2.imwrite(
             'dataset/' + UUID + '/negative/' + UUID + '_' + str(x) + '_' +
             str(y) + '.jpg', frame)
+    # Delete previous frame
+    elif ans == ord('z'):
+        prev_negative = 'dataset/' + UUID + '/negative/' + UUID + '_' + str(x_prev) + '_' + str(y_prev) + '.jpg'
+        prev_positive = 'dataset/' + UUID + '/positive/' + UUID + '_' + str(x_prev) + '_' + str(y_prev) + '.jpg'
+
+        if os.path.exists(prev_negative):
+            os.remove(prev_negative)
+        else:
+            os.remove(prev_positive)
+        i -= 1
+    # Quit
     elif ans == 27:
         break
     else:
@@ -103,10 +120,10 @@ cv2.destroyAllWindows()
 """
 Feedback:
 1. Να γίνει diplay με text για να κοιτάξει αλλού.
-2. Button για reset προηγούμενης τιμής.
+DONE --> 2. Button για reset προηγούμενης τιμής.
 3. Costa: Να ετοιμάσω pdf με οδηγίες. 
-3. Costa: Consent. 
-4. Αντί για rectangle να είναι κύκλος.
+DONE --> 3. Costa: Consent. 
+DONE --> 4. Αντί για rectangle να είναι κύκλος.
 5. Θέλουμε : Width/Height οθόνης, τι υπολογιστής είναι (screen dimensions)
 6. Structure fix
 7. Notebook αφού γραφτεί ο κώδικας.
