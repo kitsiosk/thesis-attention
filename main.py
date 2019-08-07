@@ -138,8 +138,8 @@ DONE --> 2. Button για reset προηγούμενης τιμής.
 3. Costa: Να ετοιμάσω pdf με οδηγίες. 
 DONE --> 3. Costa: Consent. 
 DONE --> 4. Αντί για rectangle να είναι κύκλος.
-5. Θέλουμε : Width/Height οθόνης, τι υπολογιστής είναι (screen dimensions)
-6. Structure fix
+PLEASE EXPLAIN :) --> 5. Θέλουμε : Width/Height οθόνης, τι υπολογιστής είναι (screen dimensions)
+PLEASE EXPLAIN :) --> 6. Structure fix
 7. Notebook αφού γραφτεί ο κώδικας.
 8. Συλλογή από papers για citations και ενημέρωση.
 """
