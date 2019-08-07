@@ -11,7 +11,7 @@ DEBUG = True
 # Define the side of the rectangle that represents the attention point. Side=2*R
 R = 25
 # Number of frames to save each time the program runs
-NUM_OF_FRAMES = 3
+NUM_OF_FRAMES = 100
 
 # Create a unique user ID
 UUID = uuid.uuid4().hex
@@ -32,29 +32,32 @@ root.withdraw()
 WIDTH, HEIGHT = root.winfo_screenwidth(), root.winfo_screenheight()
 if DEBUG: print("Width is {} and Height is {}".format(WIDTH, HEIGHT))
 
-# # Personal data colelction and validation
-# print('Hello, we would like to collect data about your gender and age.')
-# while True:
-#     gender = input('Press \'f\' for female OR \'m\' for male ')
-#     if gender == 'm' or gender == 'f':
-#         break
-# while True:
-#     age = input('Please input your age in years:')
-#     if age.isdigit():
-#         age = int(age)
-#         break
+# Personal data colelction and validation
+print('Hello, we would like to collect data about your gender and age.')
+while True:
+    gender = input('Press \'f\' for female OR \'m\' for male ')
+    if gender == 'm' or gender == 'f':
+        break
+while True:
+    age = input('Please input your age in years:')
+    if age.isdigit():
+        age = int(age)
+        break
 
-# data = dict(
-#     gender=gender,
-#     age=age,
-#     UUID=UUID,
-# )
-# with open('dataset/' + UUID + '/data.yml', 'w') as outfile:
-#     yaml.dump(data, outfile)
+data = dict(
+    gender=gender,
+    age=age,
+    UUID=UUID,
+    width=WIDTH,
+    height=HEIGHT
+)
+with open('dataset/' + UUID + '/data.yml', 'w') as outfile:
+    yaml.dump(data, outfile)
 
 display_message = (
-    "You are about to see {} consequtive screens. When you see a dot at the screen you have two options: \
-Either look at the middle of it and press L(right hand) or look outside the dot and press N.(left hand).\
+    "You are about to see {} consequtive screens. For each screen there are two options: If the screen \
+contains a black dot look at the middle of it and press L(right hand). Else,look outside of the screen \
+and press N.(left hand).\
 \n\
 \nWhen you are ready to start press Enter!").format(NUM_OF_FRAMES)
 input(display_message)
@@ -77,21 +80,24 @@ while i < NUM_OF_FRAMES:
     x = np.random.randint(R, WIDTH - R)
     y = np.random.randint(R + 100, HEIGHT - R - 100)
 
-    cv2.circle(screen, (x, y), R, (0, 255, 0), -1)
+    # If the user is supposed to not look, show a relevant text on screen
+    # Else show the point of attention
+    if not_looking:
+        bottom_left = ((int)(WIDTH/2) - 250, (int)(HEIGHT/2))
+        cv2.putText(screen, "Look away from the screen and press N", bottom_left, cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), lineType=cv2.LINE_AA)
+    else:
+        cv2.circle(screen, (x, y), R, (0, 255, 0), -1)
 
     # Proper way to display full screen
     cv2.namedWindow("Window", cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty("Window", cv2.WND_PROP_FULLSCREEN,
                           cv2.WINDOW_FULLSCREEN)
-    if not_looking:
-        # The one below throws a warning
-        # bottom_left = ((int)(WIDTH/2) - 250, (int)(HEIGHT/2))
-        bottom_left = (x, y - R - 100)
-        cv2.putText(screen, "Look away from the screen and press N", bottom_left, cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), lineType=cv2.LINE_AA)
     cv2.imshow('Window', screen)
 
+    # Wait for answer key: L, N, Q or Z
     ans = cv2.waitKey(0)
 
+    # Capture a frame immidiately after key hit
     frame = cap.read()
 
     if ans == ord('l'):
@@ -127,7 +133,7 @@ cv2.destroyAllWindows()
 
 """
 Feedback:
-1. Να γίνει diplay με text για να κοιτάξει αλλού.
+DONE -->1. Να γίνει diplay με text για να κοιτάξει αλλού.
 DONE --> 2. Button για reset προηγούμενης τιμής.
 3. Costa: Να ετοιμάσω pdf με οδηγίες. 
 DONE --> 3. Costa: Consent. 
