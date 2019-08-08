@@ -9,7 +9,7 @@ The main idea is to show users a number of white screens with a black point in a
 The key press then triggers the webcam to capture a frame at that very moment and save it in format
 UUID_x_y.jpg. The frame is saved either in directory dataset/UUID/positives or dataset/UUID/negatives depending on wether the user pressed 'L' or 'N'.
 
-The python file to implement the above is main.py. The attention point on the screen is represented by a rectangle of center (x, y) and side 2*R where x and y are randomly chosen between the screen boundaries and R is a hyperparameter. The functionality of main.py can be summarized as follows:
+The python file to implement the above is main.py. The attention point on the screen is represented by a circle of center (x, y) and side 2*R where x and y are randomly chosen between the screen boundaries and R is a hyperparameter. The functionality of main.py can be summarized as follows:
 * Initialize screen dimensions by taking a screenshot and saving its shape
 * Define the number of frames to capture from each user NUM_OF_FRAMES and the length of the rectangle R
 * Input from user his/her age, gender
