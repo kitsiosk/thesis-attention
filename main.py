@@ -7,7 +7,7 @@ import os
 import yaml
 
 # Set Variable only for Debugging Processes
-DEBUG = True
+DEBUG = False
 # Define the side of the rectangle that represents the attention point. Side=2*R
 R = 25
 # Number of frames to save each time the program runs
@@ -32,6 +32,12 @@ root.withdraw()
 WIDTH, HEIGHT = root.winfo_screenwidth(), root.winfo_screenheight()
 if DEBUG: print("Width is {} and Height is {}".format(WIDTH, HEIGHT))
 
+laptop_message = "Which laptop are you using? Press\
+    C for Costas\
+    K for Kitsios\
+    U for Unknown"
+laptop = input(laptop_message)
+
 # Personal data colelction and validation
 print('Hello, we would like to collect data about your gender and age.')
 while True:
@@ -49,7 +55,8 @@ data = dict(
     age=age,
     UUID=UUID,
     width=WIDTH,
-    height=HEIGHT
+    height=HEIGHT,
+    laptop=laptop
 )
 with open('dataset/' + UUID + '/data.yml', 'w') as outfile:
     yaml.dump(data, outfile)
@@ -138,8 +145,8 @@ DONE --> 2. Button για reset προηγούμενης τιμής.
 3. Costa: Να ετοιμάσω pdf με οδηγίες. 
 DONE --> 3. Costa: Consent. 
 DONE --> 4. Αντί για rectangle να είναι κύκλος.
-PLEASE EXPLAIN :) --> 5. Θέλουμε : Width/Height οθόνης, τι υπολογιστής είναι (screen dimensions)
-PLEASE EXPLAIN :) --> 6. Structure fix 
+DONE --> 5. Θέλουμε : Width/Height οθόνης, τι υπολογιστής είναι (screen dimensions)
+DONE --> 6. Structure fix 
 7. Notebook αφού γραφτεί ο κώδικας.
 8. Συλλογή από papers για citations και ενημέρωση.
 """

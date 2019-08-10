@@ -1,3 +1,6 @@
+# Ignore the Dataset folder wich contains the images
+dataset
+
 .pylintrc
 .vscode
 .DS_Store
