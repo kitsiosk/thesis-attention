@@ -2,20 +2,20 @@
 
 *Prerequisites*: All packages installed are documented in requirements.txt
 
-The main idea is to show users a number of white screens with a black point in a random position inside the screen and ask them to press one of two keys:
-* 'L' key, if they are looking to the point at the time they hit the key
-* 'N' key, if they are looking to any other point at the time they hit the key
+The main idea is to show users two types of screens and ask them to hit Space upon looking them:
+* A white screen with a black dot at a random point, where the user must look at the dot and hit Space
+* A white screen with text instructing the user to look away from the screen and then hit Space
 
 The key press then triggers the webcam to capture a frame at that very moment and save it in format
-UUID_x_y.jpg. The frame is saved either in directory dataset/UUID/positives or dataset/UUID/negatives depending on wether the user pressed 'L' or 'N'.
+UUID_x_y.jpg. The frame is saved either in directory dataset/UUID/positives or dataset/UUID/negatives depending on wether the user was looking inside or outside the screen.
 
 The python file to implement the above is main.py. The attention point on the screen is represented by a circle of center (x, y) and side 2*R where x and y are randomly chosen between the screen boundaries and R is a hyperparameter. The functionality of main.py can be summarized as follows:
-* Initialize screen dimensions by taking a screenshot and saving its shape
+* Initialize screen dimensions
 * Define the number of frames to capture from each user NUM_OF_FRAMES and the length of the rectangle R
-* Input from user his/her age, gender
+* Input from user his/her age, gender and laptop used
 * For i=0...NUM_OF_FRAMES
-  * Randomly initialize the rectangle center (x, y) and color it black
-  * Ask user to press 'L' key or 'N' key according to where they focus their attention
+  * Randomly initialize the circle center (x, y) and color it black
+  * Ask user to press Space key according to where they focus their attention as defined above
   * Capture a frame of the user at the moment the key is pressed and save it. 
 
 ## To run the program:
