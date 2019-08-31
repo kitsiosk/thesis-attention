@@ -77,6 +77,8 @@ while(True):
         cv2.destroyAllWindows()
         break
 
+# Clear the terminal before showing instructions message
+# print("\033c", end="")
 display_message = (
     "You are about to see {} consequtive screens. For each screen there are two options: If the screen \
 contains a black dot look at the middle of it and press space. Otherwise, look outside of the screen \
