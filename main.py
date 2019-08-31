@@ -13,7 +13,7 @@ DEBUG = False
 # Define the radius of the circle that represents the attention point
 R = 25
 # Number of frames to save each time the program runs
-NUM_OF_FRAMES = 100
+NUM_OF_FRAMES = 50
 
 # Create a unique user ID
 UUID = uuid.uuid4().hex
@@ -95,7 +95,7 @@ i = 0
 while i < NUM_OF_FRAMES:
     # Variable determining wether we should show a "looking" screen
     # or a "not looking" screen. Set to i%2 so the screens show in turn
-    not_looking = i % 2
+    not_looking = (i >= NUM_OF_FRAMES / 2) or (i == 1)
 
     # Initialize a white screen
     screen = np.ones((HEIGHT, WIDTH))
