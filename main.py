@@ -47,30 +47,29 @@ while True:
 while True:
     laptop_message = "Which laptop are you using? Press\
  C for Costas K for Kitsios U for Unknown"
+
     laptop = input(laptop_message)
     if laptop == "k" or laptop == "c" or laptop == "u" or \
         laptop == "K" or laptop == "C" or laptop == "U":
         break
 
-data = dict(
-    gender=gender,
-    age=age,
-    UUID=UUID,
-    width=WIDTH,
-    height=HEIGHT,
-    laptop=laptop
-)
+data = dict(gender=gender,
+            age=age,
+            UUID=UUID,
+            width=WIDTH,
+            height=HEIGHT,
+            laptop=laptop)
 
 with open('dataset/' + UUID + '/data.yml', 'w') as outfile:
     yaml.dump(data, outfile)
 
 print("Testing camera stream. Press \'q\' when camera is set")
 # Test camera stream
-while(True):
+while (True):
     # Capture frame-by-frame
     _, frame = cap.read()
     # Display the resulting frame
-    cv2.imshow('frame',frame)
+    cv2.imshow('frame', frame)
 
     # Press 'q' to exit
     if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -91,14 +90,14 @@ input(display_message)
 # It is used only to track the previous frame each time.
 x, y = 0, 0
 i = 0
+
 while i < NUM_OF_FRAMES:
     # Variable determining wether we should show a "looking" screen
     # or a "not looking" screen. Set to i%2 so the screens show in turn
-    not_looking = i%2
+    not_looking = i % 2
 
     # Initialize a white screen
     screen = np.ones((HEIGHT, WIDTH))
-
     # Save the previous center before generating a new one
     # in order to be able to delete it.
     x_prev, y_prev = x, y
@@ -110,16 +109,21 @@ while i < NUM_OF_FRAMES:
     # If the user is supposed to not look, show a relevant text on screen
     # Else show the point of attention
     if not_looking:
-        bottom_left = ((int)(WIDTH/2) - 250, (int)(HEIGHT/2))
-        cv2.putText(screen, "Look away from the screen and press space", bottom_left, cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), lineType=cv2.LINE_AA)
+        bottom_left = ((int)(WIDTH / 2) - 250, (int)(HEIGHT / 2))
+        cv2.putText(screen,
+                    "Look away from the screen and press space",
+                    bottom_left,
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    1.0, (0, 0, 0),
+                    lineType=cv2.LINE_AA)
     else:
         cv2.circle(screen, (x, y), R, (0, 255, 0), -1)
 
     # Proper way to display full screen
+    cv2.imshow('Window', screen)
     cv2.namedWindow("Window", cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty("Window", cv2.WND_PROP_FULLSCREEN,
                           cv2.WINDOW_FULLSCREEN)
-    cv2.imshow('Window', screen)
 
     # Wait for answer key: Space, Esc or Z
     ans = cv2.waitKey(0)
@@ -130,21 +134,21 @@ while i < NUM_OF_FRAMES:
 
     if ans == ord(' '):
         if not DEBUG:
-            if(not not_looking):
+            if (not not_looking):
                 cv2.imwrite(
-                    'dataset/' + UUID + '/positive/' + UUID + '_' + str(x) + '_' +
-                    str(y) + '.jpg', frame
-                )
+                    'dataset/' + UUID + '/positive/' + UUID + '_' + str(x) +
+                    '_' + str(y) + '.jpg', frame)
             else:
                 cv2.imwrite(
-                'dataset/' + UUID + '/negative/' + UUID + '_' + str(x) + '_' +
-                str(y) + '.jpg', frame
-                )
+                    'dataset/' + UUID + '/negative/' + UUID + '_' + str(x) +
+                    '_' + str(y) + '.jpg', frame)
         i += 1
     # Delete previous frame
     elif ans == ord('z'):
-        prev_negative = 'dataset/' + UUID + '/negative/' + UUID + '_' + str(x_prev) + '_' + str(y_prev) + '.jpg'
-        prev_positive = 'dataset/' + UUID + '/positive/' + UUID + '_' + str(x_prev) + '_' + str(y_prev) + '.jpg'
+        prev_negative = 'dataset/' + UUID + '/negative/' + UUID + '_' + str(
+            x_prev) + '_' + str(y_prev) + '.jpg'
+        prev_positive = 'dataset/' + UUID + '/positive/' + UUID + '_' + str(
+            x_prev) + '_' + str(y_prev) + '.jpg'
 
         if os.path.exists(prev_negative):
             os.remove(prev_negative)
@@ -152,7 +156,7 @@ while i < NUM_OF_FRAMES:
             os.remove(prev_positive)
         i -= 1
     # Quit
-    elif ans == 27:
+    elif ans == ord('q'):
         break
     else:
         print('You must press either Space, Esc or Z')
@@ -160,8 +164,6 @@ while i < NUM_OF_FRAMES:
 # When everything is done, release the video capture
 cap.release()
 cv2.destroyAllWindows()
-
-
 """
 Feedback:
 DONE -->1. Να γίνει diplay με text για να κοιτάξει αλλού.
@@ -174,7 +176,6 @@ DONE --> 6. Structure fix
 7. Notebook αφού γραφτεί ο κώδικας.
 8. Συλλογή από papers για citations και ενημέρωση.
 """
-
 """
 Goals:
 50 άτομα για αρχή,
