@@ -4,6 +4,7 @@ import tkinter
 from imutils.video import VideoStream, WebcamVideoStream
 import uuid
 import os
+from sys import platform
 import yaml
 import time
 
@@ -119,11 +120,18 @@ while i < NUM_OF_FRAMES:
     else:
         cv2.circle(screen, (x, y), R, (0, 255, 0), -1)
 
-    # Proper way to display full screen
-    cv2.imshow('Window', screen)
-    cv2.namedWindow("Window", cv2.WND_PROP_FULLSCREEN)
-    cv2.setWindowProperty("Window", cv2.WND_PROP_FULLSCREEN,
-                          cv2.WINDOW_FULLSCREEN)
+    if platform == "linux" or platform == "linux2":
+        # Proper way to display full screen in Linux
+        cv2.namedWindow("Window", cv2.WND_PROP_FULLSCREEN)
+        cv2.setWindowProperty("Window", cv2.WND_PROP_FULLSCREEN,
+                              cv2.WINDOW_FULLSCREEN)
+        cv2.imshow('Window', screen)
+    else:
+        # Proper way to display full screen on Macos
+        cv2.imshow('Window', screen)
+        cv2.namedWindow("Window", cv2.WND_PROP_FULLSCREEN)
+        cv2.setWindowProperty("Window", cv2.WND_PROP_FULLSCREEN,
+                              cv2.WINDOW_FULLSCREEN)
 
     # Wait for answer key: Space, Esc or Z
     ans = cv2.waitKey(0)
