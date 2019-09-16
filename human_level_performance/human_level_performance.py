@@ -4,7 +4,7 @@ import glob, json
 import csv
 
 # Number of frames to show the user
-NUM_OF_FRAMES = 5
+NUM_OF_FRAMES = 50
 
 # Load the dataset
 with open('../data.json') as json_file:
@@ -29,7 +29,7 @@ for i in range(NUM_OF_FRAMES):
     y = key.split('/')[1]
 
     im = cv2.imread('../dataset_new/' + key)
-    cv2.imshow(y, im)
+    cv2.imshow('Frame', im)
     ans = cv2.waitKey(0)
     cv2.destroyAllWindows()
 
