@@ -1,0 +1,2 @@
+## Measuring Human Level Performance on our dataset
+This python script shows a number of frames to the user asking him/her each time to predict wether the person in the frame is looking or not inside the screen. At the end of this proccess quantities like accuracy are calculated and saved in a csv file. Once we gather a sufficient amount of users the results will be summirized. If an entry of the cvs file is None, the for that user the denominator of the entry expression was 0 and we can ignore it.
