@@ -1,7 +1,8 @@
 # Ignore the Dataset folder wich contains the images
 dataset
 dataset_kitsios
-
+data.json
+shape_predictor_68_face_landmarks.dat
 
 .pylintrc
 .vscode
