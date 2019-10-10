@@ -29,7 +29,7 @@ keys = sorted(noisy_data)
 for key in keys:
     # These two directories must be completely removed
     if(key.split('/')[0] == '29a6b4640afe43f4824110476eb91107' or
-        key.split('/'[0]) == 'f4fd8c0c751348abb4834ea3bec22519'):
+        key.split('/')[0] == 'f4fd8c0c751348abb4834ea3bec22519'):
         ret = noisy_data.pop(key, None)
 print(len(noisy_data))
 
