@@ -3,7 +3,7 @@ import json
 with open('data_cleaned.json') as json_file:
     noisy_data = json.load(json_file)
 
-file = open('noisy.txt', 'r')
+file = open('noisy2.txt', 'r')
 # Images list with blank lines separating participants
 initial_images = file.readlines()
 # Images list without blank lines
@@ -25,12 +25,12 @@ for i in range(len(images)):
     # if ret == None:
     #     print(path)
 
-keys = sorted(noisy_data)
-for key in keys:
-    # These two directories must be completely removed
-    if(key.split('/')[0] == '29a6b4640afe43f4824110476eb91107' or
-        key.split('/')[0] == 'f4fd8c0c751348abb4834ea3bec22519'):
-        ret = noisy_data.pop(key, None)
+# keys = sorted(noisy_data)
+# for key in keys:
+#     # These two directories must be completely removed
+#     if(key.split('/')[0] == '29a6b4640afe43f4824110476eb91107' or
+#         key.split('/')[0] == 'f4fd8c0c751348abb4834ea3bec22519'):
+#         ret = noisy_data.pop(key, None)
 print(len(noisy_data))
 
 with open('data_cleaned.json', 'w') as json_file:
