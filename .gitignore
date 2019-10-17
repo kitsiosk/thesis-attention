@@ -2,8 +2,11 @@
 dataset
 dataset_kitsios
 dataset_noisy
+leave_one_out_datasets
 data.json
+data_cleaned.json
 shape_predictor_68_face_landmarks.dat
+classifiers
 
 .pylintrc
 .vscode
