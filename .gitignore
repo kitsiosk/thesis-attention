@@ -7,6 +7,8 @@ data.json
 data_cleaned.json
 shape_predictor_68_face_landmarks.dat
 classifiers
+encodings_128
+VGG_datasets
 
 .pylintrc
 .vscode
