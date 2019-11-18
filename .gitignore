@@ -9,6 +9,8 @@ shape_predictor_68_face_landmarks.dat
 classifiers
 encodings_128
 VGG_datasets
+prnet
+FAN_landmarks
 
 .pylintrc
 .vscode
